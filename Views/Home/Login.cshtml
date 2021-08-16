@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Страница входа";
+    Layout = "_Layout";
+}
+
+@section Head {
+    <link href="~/css/compiled/Shared/Layout.css" rel="stylesheet"/>
+}
+
+<form asp-action="Login" method="POST">
+    <input type="password" name="password">
+    <button class="btn" role="button" type="submit">Войти</button>
+</form>

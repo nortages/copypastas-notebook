@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>@ViewData["Title"] - Блокнотик с пастами</title>
+    <link rel="icon" href="https://cdn.betterttv.net/emote/5d63e543375afb1da9a68a5a/3x">
+    <link href="~/icons/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"/>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @await RenderSectionAsync("Head", required: false)
+    @if (ViewBag.OwnCssBundle == null || !ViewBag.OwnCssBundle)
+    {
+        <link href="~/dist/css/Shared/Layout.css" rel="stylesheet"/>
+    }
+    <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.34/darkreader.js"></script>
+    <script>
+        const DarkReaderOptions = {
+            brightness: 100,
+            contrast: 90,
+            sepia: 10
+        };
+        let savedThemeOption = localStorage.getItem("themeOption");
+        if (savedThemeOption === null) {
+            savedThemeOption = "auto";
+        }
+        switch (savedThemeOption) {
+            case "auto":
+                DarkReader.auto(DarkReaderOptions);
+                break;
+            case "dark":
+                DarkReader.enable(DarkReaderOptions);
+                break;
+            case "light":
+                DarkReader.disable();
+                break;
+            default:
+                break;
+        }
+    </script>
+</head>
+<body>
+<header class="sticky-top shadow-sm border-bottom">
+    <nav class="navbar navbar-light bg-light navbar-expand-md navbar-toggleable-md">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
+                <img src="https://cdn.betterttv.net/emote/5d63e543375afb1da9a68a5a/1x" alt="logo" class="me-2">
+                Блокнотик с пастами
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbarSupportedContent" class="navbar-collapse collapse d-md-inline-flex justify-content-between no-transition">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    
+                    @await RenderSectionAsync("NavButtons", required: false)
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                            Выбрать тему
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><button class="theme-option dropdown-item" type="button" data-theme-option="auto" aria-label="Auto">Авто</button></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button class="theme-option dropdown-item" type="button" data-theme-option="dark" aria-label="Dark">Тёмная</button></li>
+                            <li><button class="theme-option dropdown-item" type="button" data-theme-option="light" aria-label="light">Светлая</button></li>
+                        </ul>
+                    </li>
+                </ul>
+             
+                <form class="d-flex">
+                    <input id="search-input" class="form-control me-2" type="search" value="@ViewBag.SearchString" placeholder="Поиск" aria-label="Search" autocomplete="on">
+                    <button id="search-button" class="btn btn-outline-success" type="submit">Поиск</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container mt-3">
+    <main role="main" class="">
+        @RenderBody()
+    </main>
+</div>
+
+<footer>
+    <div class="container">
+        &copy; 2021 - Блокнотик с пастами
+    </div>
+</footer>
+
+<script type="module" src="~/dist/js/Layout.bundle.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

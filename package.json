@@ -1,0 +1,29 @@
+{
+  "name": "converted",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@popperjs/core": "^2.9.2",
+    "@types/bootbox": "5.2.2",
+    "@types/bootstrap": "5.0.17",
+    "@types/feather-icons": "4.7.0",
+    "bootbox": "5.5.2",
+    "bootstrap": "^5.0.2",
+    "darkreader": "4.9.34",
+    "expose-loader": "^3.0.0",
+    "feather-icons": "4.28.0",
+    "popper.js": "^1.16.1",
+    "tippy.js": "^6.3.1",
+    "ts-loader": "9.2.4",
+    "typescript": "4.3.5"
+  },
+  "devDependencies": {
+    "@rails/webpacker": "^5.4.2",
+    "css-loader": "^6.2.0",
+    "style-loader": "^3.2.1",
+    "webpack": "^5.47.1",
+    "webpack-cli": "^4.7.2"
+  }
+}

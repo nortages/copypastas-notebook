@@ -1,0 +1,49 @@
+﻿@model Record
+
+<div class="copypasta" @(Model != null ? $"data-copypasta-id={@Model.Id}" : "")>
+    <div class="copypasta__body">
+        <textarea 
+            class="copypasta__text" 
+            maxlength="500" 
+            @(ViewBag.IsAdmin ? "" : "readonly") 
+        >@Model?.Text</textarea>
+        @if (ViewBag.IsAdmin)
+        {
+            <div class="letter-counter">@((Model?.Text ?? "").Length)/500</div>
+        }
+    </div>
+    <div class="copypasta__footer">
+        <div class="relative-container">
+            <div class="tags-row">
+                @if (Model != null)
+                {
+                    foreach (var recordTag in Model.RecordLabels)
+                    {
+                        <span class="tag" data-tag-id="@recordTag.TagId">
+                            @recordTag.Tag.Name
+                            @* @if (ViewBag.IsAdmin) *@
+                            @* { *@
+                            @*     <button class="tag__remove-button" aria-label="Remove tag"><i class="bi bi-x-circle"></i></button> *@
+                            @* } *@
+                        </span>
+                    }
+                }
+            </div>
+            <div class="left-scroll-shadow"></div>
+            <div class="right-scroll-shadow"></div>
+        </div>
+
+        @if (ViewBag.IsAdmin)
+        {
+            <div class="edit-buttons">
+                <button class="footer-button save-button" aria-label="Save"><i data-feather="save"></i></button>
+                <button class="footer-button remove-button" aria-label="Remove"><i data-feather="trash"></i></button>
+                <button class="footer-button add-tag-button" aria-label="Add tag"><i data-feather="tag"></i></button>    
+            </div>    
+        }
+        else
+        {
+            <button class="footer-button copy-button" aria-label="Copy"><i class="bi bi-clipboard"></i></button>
+        }
+    </div>
+</div>

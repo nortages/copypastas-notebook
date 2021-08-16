@@ -1,0 +1,79 @@
+﻿@model X.PagedList.IPagedList<Record>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common
+
+@{
+    ViewData["Title"] = "Главная";
+    ViewBag.OwnCssBundle = true;
+}
+
+@section Head {
+    <link href="~/dist/css/Home/Index.css" rel="stylesheet"/>
+}
+
+@section NavButtons {
+    @* @if (ViewBag.IsAdmin) *@
+    @* { *@
+    @*     <li class="nav-item"> *@
+    @*         <div class="form-check form-switch nav-link active"> *@
+    @*             <input id="edit-mode-checkbox" class="form-check-input" type="checkbox" @(ViewBag.IsEditMode ? "checked" : "")> *@
+    @*             <label class="form-check-label" for="edit-mode-checkbox">Режим редактирования</label> *@
+    @*         </div> *@
+    @*     </li> *@
+    @* } *@
+    
+    <li id="filterTagsPopover" class="nav-item dropdown">
+        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            Выбрать теги
+        </a>
+        <div class="dropdown-menu p-0" aria-labelledby="navbarDropdown">
+            <div class="tags-container includable">
+                @{
+                    var includedTagIds = (int[]) ViewBag.IncludedTagIds;
+                    var excludedTagIds = (int[]) ViewBag.ExcludedTagIds;
+                }
+                @foreach (Tag tag in ViewBag.Tags)
+                {
+                    <span class="tag @(includedTagIds.Contains(tag.Id) ? "included" : excludedTagIds.Contains(tag.Id) ? "excluded" : "")" 
+                          data-tag-id="@tag.Id">@tag.Name</span>
+                }
+            </div>
+        </div>
+    </li>
+}
+
+<div id="records-container" class="">
+    @if (ViewBag.IsAdmin)
+    {
+        @await Html.PartialAsync("Record", model: null)
+    }
+    
+    @foreach (var record in Model)
+    {
+        @await Html.PartialAsync("Record", record)
+    }
+</div>
+
+@* Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount *@
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, searchString = ViewBag.SearchString, includedTagIds = ViewBag.IncludedTagIds }), new PagedListRenderOptions()
+    {
+        LiElementClasses = new[] { "page-item" },
+        ActiveLiElementClass = "active",
+        PageClasses = new[] { "page-link" },
+        Display = PagedListDisplayMode.IfNeeded,
+        MaximumPageNumbersToDisplay = 6,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+        DisplayLinkToNextPage = PagedListDisplayMode.Never,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    })
+
+@section Scripts {
+    @if (ViewBag.IsAdmin)
+    {
+        <script type="module" src="~/dist/js/editMode.bundle.js" asp-append-version="true"></script>
+    } else {
+        <script type="module" src="~/dist/js/homeIndex.bundle.js" asp-append-version="true"></script>
+    }
+}

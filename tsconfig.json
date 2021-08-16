@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "ES6",
+    "target": "ES6",
+    "allowJs": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "outDir": "wwwroot/dist/js",
+    "allowSyntheticDefaultImports" : true
+  },
+  "include": ["wwwroot/src/ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
