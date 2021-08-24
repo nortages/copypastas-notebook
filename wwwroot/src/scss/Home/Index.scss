@@ -35,6 +35,8 @@
   width: 18rem;
   user-select: none;
   font-size: 14px;
+  background-color: inherit;
+  border-radius: inherit;
 
   & > .tag {
     margin: 0.2rem;
@@ -103,5 +105,21 @@
     &:hover {
       @extend .text-danger;
     }
+  }
+}
+
+.divider-with-text {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid hsl(0deg 0% 60%);
+  line-height: 0.1em;
+  margin: 0.5rem 0 0.5rem;
+  font-size: 0.9em;
+  background-color: inherit;
+  
+  .divider-text {
+    background: inherit;
+    padding:0 0.5rem;
+    color: hsl(0deg 0% 50%);
   }
 }

@@ -53,8 +53,9 @@ namespace Practice.Controllers
             searchString = searchString?.Trim();
             
             ViewBag.SearchString = searchString;
-            ViewBag.IncludedTagIds = includedTagIds;
-            ViewBag.ExcludedTagIds = excludedTagIds;
+            ViewBag.IncludedTagIds = includedTagIds.ToList();
+            ViewBag.ExcludedTagIds = excludedTagIds.ToList();
+            ViewBag.TagCategories = await _context.TagCategories.ToListAsync();
             
             IQueryable<Record> records = _context.Records;
             
