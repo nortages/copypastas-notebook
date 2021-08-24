@@ -58,7 +58,7 @@ namespace Practice.Controllers
             
             IQueryable<Record> records = _context.Records;
             
-            records = records.OrderByDescending(o => o.Id);
+            records = records.Where(r => r.RecordTags.All(rt => !_context.TagCategories.Contains(rt.Tag.Category) || _context.Tags.Where(t => includedTagIds.Contains(t.Id)).Contains(rt.Tag)));
             
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -66,20 +66,17 @@ namespace Practice.Controllers
                 records = records.Where(r => EF.Functions.ILike(r.Text, pattern));
             }
             
-            if (excludedTagIds.Length > 0)
-                records = records.Where(r => r.RecordLabels.All(rl => !excludedTagIds.Contains(rl.TagId)));
-
-            var recordsList = records;
             if (includedTagIds.Length > 0)
-                recordsList = recordsList.Where(r => _context.Tags.Where(l => includedTagIds.Contains(l.Id)).All(i => r.RecordLabels.Any(rl => rl.TagId == i.Id)));
+                records = records.Where(r => _context.Tags.Where(t => includedTagIds.Contains(t.Id)).All(i => r.RecordTags.Any(rl => rl.TagId == i.Id)));
             
-            var pageSize = 18;
-            if (ViewBag.IsAdmin)
-            {
-                pageSize--;
-            }
+            if (excludedTagIds.Length > 0)
+                records = records.Where(r => r.RecordTags.All(rl => !excludedTagIds.Contains(rl.TagId)));
             
-            return View(recordsList.ToPagedList(page, pageSize));
+            records = records.OrderByDescending(o => o.Id);
+            
+            const int pageSize = 18;
+            
+            return View(records.ToPagedList(page, ViewBag.IsAdmin ? pageSize - 1 : pageSize));
         }
 
         public IActionResult Privacy()
@@ -103,7 +100,7 @@ namespace Practice.Controllers
                 
                 foreach (var recordLabelId in RecordLabels)
                 {
-                    newRecord.RecordLabels.Add(new RecordLabel()
+                    newRecord.RecordTags.Add(new RecordTag()
                     {
                         RecordId = newRecord.Id,
                         TagId = recordLabelId

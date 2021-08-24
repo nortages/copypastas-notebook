@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Practice.Models
 {
-    [Table("RecordLabel")]
-    public class RecordLabel
+    [Table("RecordTag")]
+    public class RecordTag
     {
         public int Id { get; set; }
-        public int RecordId { get; set; }
         public int TagId { get; set; }
+        public int RecordId { get; set; }
 
         public virtual Tag Tag { get; set; }
         public virtual Record Record { get; set; }

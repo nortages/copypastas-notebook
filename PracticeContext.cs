@@ -29,6 +29,7 @@ namespace Practice
 
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<Record> Records { get; set; }
+        public virtual DbSet<TagCategory> TagCategories { get; set; }
         
         public string ConnectionString { get; set; }
 

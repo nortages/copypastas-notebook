@@ -116,9 +116,9 @@ namespace Practice.Controllers
 
             foreach (var tagId in tagIds)
             {
-                if (@record.RecordLabels.SingleOrDefault(rl => rl.TagId == tagId) == null)
+                if (@record.RecordTags.SingleOrDefault(rl => rl.TagId == tagId) == null)
                 {
-                    @record.RecordLabels.Add(new RecordLabel()
+                    @record.RecordTags.Add(new RecordTag()
                     {
                         RecordId = @record.Id,
                         TagId = tagId
@@ -126,11 +126,11 @@ namespace Practice.Controllers
                 }
             }
 
-            foreach (var recordLabel in @record.RecordLabels.ToList())
+            foreach (var recordLabel in @record.RecordTags.ToList())
             {
                 if (!tagIds.Contains(recordLabel.TagId))
                 {
-                    @record.RecordLabels.Remove(recordLabel);
+                    @record.RecordTags.Remove(recordLabel);
                 }
             }
 

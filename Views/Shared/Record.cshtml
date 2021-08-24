@@ -17,7 +17,7 @@
             <div class="tags-row">
                 @if (Model != null)
                 {
-                    foreach (var recordTag in Model.RecordLabels)
+                    foreach (var recordTag in Model.RecordTags)
                     {
                         <span class="tag" data-tag-id="@recordTag.TagId">
                             @recordTag.Tag.Name

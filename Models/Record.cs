@@ -13,6 +13,6 @@ namespace Practice.Models
         [StringLength(500)]
         public string Text { get; set; }
 
-        public virtual ICollection<RecordLabel> RecordLabels { get; set; } = new List<RecordLabel>();
+        public virtual ICollection<RecordTag> RecordTags { get; set; } = new List<RecordTag>();
     }
 }
