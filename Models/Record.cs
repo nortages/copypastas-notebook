@@ -10,9 +10,12 @@ namespace Practice.Models
     public class Record
     {
         public int Id { get; set; }
-        [StringLength(500)]
-        public string Text { get; set; }
+        [StringLength(500)] public string Text { get; set; }
+        public int? OriginalRecordId { get; set; }
 
-        public virtual ICollection<RecordTag> RecordTags { get; set; } = new List<RecordTag>();
+        public virtual Record OriginalRecord { get; set; }
+        [ForeignKey("OriginalRecordId")]
+        public virtual ICollection<Record> SimilarRecords { get; set; }
+        public virtual ICollection<RecordTag> RecordTags { get; set; }
     }
 }

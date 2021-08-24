@@ -17,6 +17,8 @@ namespace Practice.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly PracticeContext _context;
 
+        private const int RecordsNumberPerPage = 18;
+
         public HomeController(ILogger<HomeController> logger, PracticeContext context)
         {
             _logger = logger;
@@ -45,17 +47,39 @@ namespace Practice.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Original(int originalId, int page = 1)
+        {
+            ViewBag.SearchString = "";
+            ViewBag.IncludedTagIds = new List<int>();
+            ViewBag.ExcludedTagIds = new List<int>();
+            
+            IQueryable<Record> records = _context.Records;
+            records = records.Where(r => r.Id == originalId);
+            return View("Index", records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+        }
+        
+        public async Task<IActionResult> Similar(int originalId, int page = 1)
+        {
+            ViewBag.SearchString = "";
+            ViewBag.IncludedTagIds = new List<int>();
+            ViewBag.ExcludedTagIds = new List<int>();
+            
+            IQueryable<Record> records = _context.Records;
+            var similarRecords = records.Single(r => r.Id == originalId).SimilarRecords;
+            return View("Index", similarRecords.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+        }
+
         public async Task<IActionResult> Index(
             string searchString,
             int[] includedTagIds,
-            int[] excludedTagIds, int page = 1)
+            int[] excludedTagIds,
+            int page = 1)
         {
             searchString = searchString?.Trim();
             
             ViewBag.SearchString = searchString;
             ViewBag.IncludedTagIds = includedTagIds.ToList();
             ViewBag.ExcludedTagIds = excludedTagIds.ToList();
-            ViewBag.TagCategories = await _context.TagCategories.ToListAsync();
             
             IQueryable<Record> records = _context.Records;
             
@@ -75,9 +99,7 @@ namespace Practice.Controllers
             
             records = records.OrderByDescending(o => o.Id);
             
-            const int pageSize = 18;
-            
-            return View(records.ToPagedList(page, ViewBag.IsAdmin ? pageSize - 1 : pageSize));
+            return View(records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
         }
 
         public IActionResult Privacy()

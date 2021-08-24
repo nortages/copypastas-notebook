@@ -1,6 +1,6 @@
 ﻿@model Record
 
-<div class="copypasta" @(Model != null ? $"data-copypasta-id={@Model.Id}" : "")>
+<div class="copypasta" @(Model is { } ? $"data-copypasta-id={@Model.Id}" : "")>
     <div class="copypasta__body">
         <textarea 
             class="copypasta__text" 
@@ -15,24 +15,38 @@
     <div class="copypasta__footer">
         <div class="relative-container">
             <div class="tags-row">
-                @if (Model != null)
+                @foreach (var recordTag in Model?.RecordTags ?? new List<RecordTag>())
                 {
-                    foreach (var recordTag in Model.RecordTags)
-                    {
-                        <span class="tag" data-tag-id="@recordTag.TagId">
-                            @recordTag.Tag.Name
-                            @* @if (ViewBag.IsAdmin) *@
-                            @* { *@
-                            @*     <button class="tag__remove-button" aria-label="Remove tag"><i class="bi bi-x-circle"></i></button> *@
-                            @* } *@
-                        </span>
-                    }
+                    <span class="tag" data-tag-id="@recordTag.TagId">
+                        @recordTag.Tag.Name
+                        @* @if (ViewBag.IsAdmin) *@
+                        @* { *@
+                        @*     <button class="tag__remove-button" aria-label="Remove tag"><i class="bi bi-x-circle"></i></button> *@
+                        @* } *@
+                    </span>
                 }
             </div>
             <div class="left-scroll-shadow"></div>
             <div class="right-scroll-shadow"></div>
         </div>
 
+        @if (Model?.OriginalRecordId is { } originalRecordId)
+        {
+            <a href="@Url.Action("Original", "Home", new {originalId = originalRecordId})"
+               class="footer-button"
+               data-tippy-content="Оригинал">
+                <i class="bi bi-journal"></i>
+            </a>
+        }
+        @if (Model?.SimilarRecords.Count > 0)
+        {
+            <a href="@Url.Action("Similar", "Home", new {originalId = Model.Id})"
+               class="footer-button"
+               data-tippy-content="Похожие">
+                <i class="bi bi-journals"></i>
+            </a>
+        }
+        
         @if (ViewBag.IsAdmin)
         {
             <div class="edit-buttons">

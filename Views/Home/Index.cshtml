@@ -34,7 +34,9 @@
                 {
                     void GetTagContainer(Tag tag)
                     {
-                        <span class="tag @((ViewBag.IncludedTagIds).Contains(tag.Id) ? "included" : ViewBag.ExcludedTagIds.Contains(tag.Id) ? "excluded" : "")" 
+                        var isTagIncluded = ((List<int>)ViewBag.IncludedTagIds)?.Contains(tag.Id) ?? false;
+                        var isTagExcluded = ((List<int>)ViewBag.ExcludedTagIds)?.Contains(tag.Id) ?? false;
+                        <span class="tag @(isTagIncluded ? "included" : isTagExcluded ? "excluded" : "")" 
                               data-tag-id="@tag.Id">@tag.Name</span>
                     }    
                 }
@@ -46,7 +48,6 @@
                 
                 @foreach (var category in ((List<TagCategory>)ViewBag.TagCategories).OrderByDescending(tc => tc.Tags.Count))
                 {
-                    //<hr class="dropdown-divider w-100">
                     <div class="divider-with-text"><span class="divider-text">@category.Name</span></div>
                     foreach (var tag in category.Tags)
                     {
@@ -70,10 +71,15 @@
     }
 </div>
 
-@* Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount *@
-
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, searchString = ViewBag.SearchString, includedTagIds = ViewBag.IncludedTagIds }), new PagedListRenderOptions()
+    new
+    {
+        page,
+        searchString = ViewBag.SearchString,
+        includedTagIds = ViewBag.IncludedTagIds,
+        excludedTagIds = ViewBag.ExcludedTagIds
+    }), 
+    new PagedListRenderOptions()
     {
         LiElementClasses = new[] { "page-item" },
         ActiveLiElementClass = "active",

@@ -123,3 +123,7 @@
     color: hsl(0deg 0% 50%);
   }
 }
+
+.tippy-box[data-theme~='simple-button-tip'] {
+  padding: 0.5rem;
+}
