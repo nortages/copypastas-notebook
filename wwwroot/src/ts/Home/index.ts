@@ -131,6 +131,11 @@ export function toggleFilterTagState(tag, stateToSet, oppositeState) {
 }
 
 $(() => {
+  tippy('[data-tippy-content]', {
+    theme: "simple-button-tip",
+    delay: [1000, null],
+  });
+  
   $(".horizontal-tags-container").each(function() {
     if (isOverflown(this)) {
       $(this).siblings(".right-scroll-shadow").css("opacity", 1);

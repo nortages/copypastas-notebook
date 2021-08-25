@@ -10,6 +10,7 @@ namespace Practice.Models
     public class RecordTag
     {
         public int Id { get; set; }
+        
         public int TagId { get; set; }
         public int RecordId { get; set; }
 

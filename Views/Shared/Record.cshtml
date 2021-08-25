@@ -1,6 +1,7 @@
 ﻿@model Record
 
-<div class="copypasta" @(Model != null ? $"data-copypasta-id={@Model.Id}" : "")>
+<div class="copypasta" 
+     @(Model is { } ? $"data-copypasta-id={@Model.Id}" : "")>
     <div class="copypasta__body">
         <textarea 
             class="copypasta__text" 
@@ -15,35 +16,62 @@
     <div class="copypasta__footer">
         <div class="relative-container">
             <div class="tags-row">
-                @if (Model != null)
+                @foreach (var recordTag in Model?.RecordTags ?? new List<RecordTag>())
                 {
-                    foreach (var recordTag in Model.RecordTags)
-                    {
-                        <span class="tag" data-tag-id="@recordTag.TagId">
-                            @recordTag.Tag.Name
-                            @* @if (ViewBag.IsAdmin) *@
-                            @* { *@
-                            @*     <button class="tag__remove-button" aria-label="Remove tag"><i class="bi bi-x-circle"></i></button> *@
-                            @* } *@
-                        </span>
-                    }
+                    <span class="tag" data-tag-id="@recordTag.TagId">
+                        @recordTag.Tag.Name
+                        @* @if (ViewBag.IsAdmin) *@
+                        @* { *@
+                        @*     <button class="tag__remove-button" aria-label="Remove tag"><i class="bi bi-x-circle"></i></button> *@
+                        @* } *@
+                    </span>
                 }
             </div>
             <div class="left-scroll-shadow"></div>
             <div class="right-scroll-shadow"></div>
         </div>
 
+        @if (Model?.OriginalRecordId is { } originalRecordId)
+        {
+            <a href="@Url.Action("Copypasta", "Home", new { id = originalRecordId })"
+               class="footer-button"
+               data-tippy-content="Оригинал">
+                <i class="bi bi-journal"></i>
+            </a>
+        }
+        @if (Model?.SimilarRecords.Count > 0)
+        {
+            <a href="@Url.Action("SimilarTo", "Home", new { id = Model.Id })"
+               class="footer-button"
+               data-tippy-content="Похожие">
+                <i class="bi bi-journals"></i>
+            </a>
+        }
+        
         @if (ViewBag.IsAdmin)
         {
             <div class="edit-buttons">
-                <button class="footer-button save-button" aria-label="Save"><i data-feather="save"></i></button>
-                <button class="footer-button remove-button" aria-label="Remove"><i data-feather="trash"></i></button>
-                <button class="footer-button add-tag-button" aria-label="Add tag"><i data-feather="tag"></i></button>    
+                <button class="footer-button save-button"
+                        aria-label="Save"
+                        data-href="@(Model == null ? Url.Action("Create", "Home") : Url.Action("Edit", "Home"))">
+                    <i data-feather="save"></i>
+                </button>
+                <button
+                    class="footer-button remove-button"
+                    aria-label="Remove"
+                    data-href="@Url.Action("Delete", "Home")">
+                    <i data-feather="trash"></i>
+                </button>
+                <button
+                    class="footer-button add-tag-button"
+                    aria-label="Add tag">
+                    <i data-feather="tag"></i>
+                </button>    
             </div>    
         }
         else
         {
-            <button class="footer-button copy-button" aria-label="Copy" title="Скопировать"><i class="bi bi-clipboard"></i></button>
+            <button class="footer-button copy-button" aria-label="Copy" data-tippy-content="Скопировать"><i class="bi bi-clipboard"></i></button>
         }
     </div>
 </div>

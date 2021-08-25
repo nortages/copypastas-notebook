@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using OneOf;
+using OneOf.Types;
 using X.PagedList;
 using Practice.Models;
 
@@ -17,10 +19,107 @@ namespace Practice.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly PracticeContext _context;
 
+        private const int RecordsNumberPerPage = 18;
+        private const string RecordExistsMessage = "Такая паста уже существует.";
+        private const string RecordNotFoundMessage = "Паста не найдена.";
+        private const string RecordTextMustBeNonEmptyMessage = "Текст пасты не может быть пустым.";
+
         public HomeController(ILogger<HomeController> logger, PracticeContext context)
         {
             _logger = logger;
             _context = context;
+        }
+
+        private OneOf<Success, BadRequestObjectResult> EditRecord(Record @record, string text, int[] tagIds)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return BadRequest(RecordTextMustBeNonEmptyMessage);
+            }
+            
+            @record.Text = text;
+            @record.RecordTags?.Clear();
+            @record.RecordTags = new List<RecordTag>();
+            foreach (var tagId in tagIds)
+            {
+                @record.RecordTags.Add(new RecordTag()
+                {
+                    RecordId = @record.Id,
+                    TagId = tagId
+                });
+            }
+
+            return new Success();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Create(string text, int[] tagIds)
+        {
+            if (!ModelState.IsValid) return BadRequest("Паста не валидна.");
+
+            if (_context.Records.Any(e => e.Text == text))
+            {
+                return BadRequest(RecordExistsMessage);
+            }
+            var newRecord = new Record();
+            var result = EditRecord(newRecord, text, tagIds);
+            return result.Match<IActionResult>(success =>
+            {
+                try
+                {
+                    _context.Add(newRecord);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (_context.Records.Any(e => e.Id == newRecord.Id))
+                    {
+                        return BadRequest(RecordExistsMessage);
+                    }
+                    throw;
+                }
+                return Ok();
+            }, badRequestResult => badRequestResult);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, string text, int[] tagIds)
+        {
+            var @record = await _context.Records.SingleOrDefaultAsync(r => r.Id == id);
+            if (@record == null)
+            {
+                return NotFound(RecordNotFoundMessage);
+            }
+            
+            var result = EditRecord(@record, text, tagIds);
+            return result.Match<IActionResult>(success =>
+            {
+                try
+                {
+                    _context.Update(@record);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Records.Any(e => e.Id == @record.Id))
+                    {
+                        return BadRequest(RecordNotFoundMessage);
+                    }
+                    throw;
+                }
+            
+                return Ok();
+            }, badRequestResult => badRequestResult);
+        }
+        
+        // POST: Record/Delete/5
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var @record = await _context.Records.FindAsync(id);
+            _context.Records.Remove(@record);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
         
         [HttpGet]
@@ -45,17 +144,40 @@ namespace Practice.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Copypasta(int id, int page = 1)
+        {
+            ViewBag.SearchString = "";
+            ViewBag.IncludedTagIds = new List<int>();
+            ViewBag.ExcludedTagIds = new List<int>();
+            
+            IQueryable<Record> records = _context.Records;
+            records = records.Where(r => r.Id == id);
+            return View("Index", records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+        }
+        
+        public async Task<IActionResult> SimilarTo(int id, int page = 1)
+        {
+            ViewBag.SearchString = "";
+            ViewBag.IncludedTagIds = new List<int>();
+            ViewBag.ExcludedTagIds = new List<int>();
+            
+            IQueryable<Record> records = _context.Records;
+            var originalRecord = records.Single(r => r.Id == id);
+            var similarRecords = originalRecord.SimilarRecords;
+            return View("Index", similarRecords.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+        }
+
         public async Task<IActionResult> Index(
             string searchString,
             int[] includedTagIds,
-            int[] excludedTagIds, int page = 1)
+            int[] excludedTagIds,
+            int page = 1)
         {
             searchString = searchString?.Trim();
             
             ViewBag.SearchString = searchString;
             ViewBag.IncludedTagIds = includedTagIds.ToList();
             ViewBag.ExcludedTagIds = excludedTagIds.ToList();
-            ViewBag.TagCategories = await _context.TagCategories.ToListAsync();
             
             IQueryable<Record> records = _context.Records;
             
@@ -75,9 +197,7 @@ namespace Practice.Controllers
             
             records = records.OrderByDescending(o => o.Id);
             
-            const int pageSize = 18;
-            
-            return View(records.ToPagedList(page, ViewBag.IsAdmin ? pageSize - 1 : pageSize));
+            return View(records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
         }
 
         public IActionResult Privacy()

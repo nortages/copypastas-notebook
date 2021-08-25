@@ -70,8 +70,19 @@
                 </ul>
              
                 <form class="d-flex">
-                    <input id="search-input" class="form-control me-2" type="search" value="@ViewBag.SearchString" placeholder="Поиск" aria-label="Search" autocomplete="on">
-                    <button id="search-button" class="btn btn-outline-success" type="submit">Поиск</button>
+                    <input id="search-input" 
+                           type="search"
+                           class="form-control me-2"
+                           value="@ViewBag.SearchString"
+                           placeholder="Поиск"
+                           aria-label="Search"
+                           autocomplete="on"
+                           data-href="@Url.Action("Index", "Home")">
+                    <button id="search-button"
+                            class="btn btn-outline-success"
+                            type="submit">
+                        Поиск
+                    </button>
                 </form>
             </div>
         </div>

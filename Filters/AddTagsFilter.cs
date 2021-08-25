@@ -20,6 +20,7 @@ namespace Practice.Filters
             // Do something before the action executes.
             var controller = (Controller)context.Controller;
             controller.ViewBag.Tags = _dbContext.Tags;
+            controller.ViewBag.TagCategories = _dbContext.TagCategories.ToList();
         }
 
         public void OnActionExecuted(ActionExecutedContext context)

@@ -1,7 +1,13 @@
 export const searchParams = {};
 
-export function search() {
-  const parsedUrl = new URL(window.location.href);
+export function search(pathName: string) {
+  const currentUrl = window.location.href;
+  const parsedUrl = new URL(currentUrl);
+  parsedUrl.pathname = pathName;
+  parsedUrl.searchParams.forEach((val, key) => {
+    parsedUrl.searchParams.delete(key);
+  });
+  
   for (const [key, value] of Object.entries(searchParams)) {
     if (Array.isArray(value)) {
       parsedUrl.searchParams.delete(key);
@@ -14,10 +20,8 @@ export function search() {
         parsedUrl.searchParams.delete(key);
       } else {
         parsedUrl.searchParams.set(key, valueStr);
-
       }
     }
   }
-  parsedUrl.searchParams.delete("page");
   window.location.href = parsedUrl.toString();
 }
