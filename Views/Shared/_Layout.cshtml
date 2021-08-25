@@ -67,6 +67,20 @@
                             <li><button class="theme-option dropdown-item" type="button" data-theme-option="light" aria-label="light">Светлая</button></li>
                         </ul>
                     </li>
+                    
+                    @if (ViewBag.IsAdmin)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@Url.Action("Index", "Record")" role="button">
+                                Пасты
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@Url.Action("Index", "Tag")" role="button">
+                                Теги
+                            </a>
+                        </li>    
+                    }
                 </ul>
              
                 <form class="d-flex">
