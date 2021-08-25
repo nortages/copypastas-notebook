@@ -107,25 +107,30 @@ $("#filterTagsPopover").on('contextmenu', ".tag", function(e) {
   toggleFilterTagState(tag, "excluded", "included");
 });
 
+function getFilterTagName(state) {
+  return `${state.substr(0, 2)}Tag`;
+}
+
 export function toggleFilterTagState(tag, stateToSet, oppositeState) {
   const tagId = tag.data("tag-id");
-  const searchParamName = `${stateToSet}TagIds`;
+  const filterTagToSetParam = getFilterTagName(stateToSet);
   if (tag.hasClass(stateToSet)) {
     tag.removeClass(stateToSet);
-    const index = searchParams[searchParamName].indexOf(tagId);
+    const index = searchParams[filterTagToSetParam].indexOf(tagId);
     if (index > -1) {
-      searchParams[searchParamName].splice(index, 1);
+      searchParams[filterTagToSetParam].splice(index, 1);
     }
   }
   else {
     tag.addClass(stateToSet);
-    searchParams[searchParamName].push(tagId);
+    searchParams[filterTagToSetParam].push(tagId);
   }
   if (tag.hasClass(oppositeState)) {
     tag.removeClass(oppositeState);
-    const index = searchParams[`${oppositeState}TagIds`].indexOf(tagId);
+    const filterTagToUnsetParam = getFilterTagName(oppositeState);
+    const index = searchParams[filterTagToUnsetParam].indexOf(tagId);
     if (index > -1) {
-      searchParams[`${oppositeState}TagIds`].splice(index, 1);
+      searchParams[filterTagToUnsetParam].splice(index, 1);
     }
   }
 }
@@ -152,8 +157,8 @@ $(() => {
     if (tag.hasClass("excluded"))
       excludedTagIds.push(tagId);
   });
-  searchParams["includedTagIds"] = includedTagIds;
-  searchParams["excludedTagIds"] = excludedTagIds;
+  searchParams["inTag"] = includedTagIds;
+  searchParams["exTag"] = excludedTagIds;
 
   $(document).on('keydown', function(event) {
     if (event.altKey && event.key == 'F1' && !(event.ctrlKey || event.shiftKey || event.metaKey)) {

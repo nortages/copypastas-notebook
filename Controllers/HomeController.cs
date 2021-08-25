@@ -168,12 +168,14 @@ namespace Practice.Controllers
         }
 
         public async Task<IActionResult> Index(
-            string searchString,
-            int[] includedTagIds,
-            int[] excludedTagIds,
+            string q,
+            int[] inTag,
+            int[] exTag,
             int page = 1)
         {
-            searchString = searchString?.Trim();
+            var searchString = q?.Trim();
+            var includedTagIds = inTag;
+            var excludedTagIds = exTag;
             
             ViewBag.SearchString = searchString;
             ViewBag.IncludedTagIds = includedTagIds.ToList();

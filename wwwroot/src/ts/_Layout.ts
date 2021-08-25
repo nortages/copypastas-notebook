@@ -60,7 +60,7 @@ $('.theme-option[data-theme-option="'+savedThemeOption+'"]').addClass("active");
 $("#search-button").on("click", function (e) {
     e.preventDefault();
     const searchInput = $("#search-input");
-    searchParams["searchString"] = searchInput.val() as string;
+    searchParams["q"] = searchInput.val() as string;
     search(searchInput.data("href"));
 });
 
