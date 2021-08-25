@@ -70,7 +70,7 @@ function copyToClipboard(text) {
 function onClickCopyButton() {
   const button = $(this);
   const elemToCopy = button.closest(".copypasta").find(".copypasta__text");
-  copyToClipboard(elemToCopy.val());
+  copyToClipboard(elemToCopy.text());
   button.find("i.bi").toggleClass("bi-clipboard bi-clipboard-check");
 
   setTimeout(function() {
@@ -94,7 +94,7 @@ copypastas.on('touchstart', '.copypasta__text', function () {
   }
 });
 
-$(".copypasta__text").each(fixHeight);
+
 
 $("#filterTagsPopover").on('click', ".tags-container.includable .tag", function(e) {
   const tag = $(this);

@@ -235,6 +235,8 @@ function addPopoverToButton() {
 const all_tags = [];
 
 $(() => {
+  $(".copypasta__text").each(fixHeight);
+  
   $("#filterTagsPopover .tag").each(function()
   {
     const tag = $(this);
