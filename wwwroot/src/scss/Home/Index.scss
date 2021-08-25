@@ -6,7 +6,7 @@
   --text-width: 18.75rem;
   --grid-gap: 1rem;
   --card-padding: 1rem;
-  --card-width: calc(var(--text-width) + var(--card-padding) * 2);
+  --card-width: calc(var(--text-width) + var(--card-padding) * 2 + 2px);
 
   display: grid;
   grid-template-columns: repeat(auto-fit, var(--card-width));
