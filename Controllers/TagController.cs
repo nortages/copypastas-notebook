@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Practice.Models;
@@ -15,11 +16,23 @@ namespace Practice.Controllers
         {
             _context = context;
         }
+        
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            ViewData["CategoryId"] = new SelectList(_context.TagCategories.OrderBy(r => r.Id), "Id", "Name");
+            base.OnActionExecuting(context);
+        }
+        
+        private void SetSelectListDefaultValue(int? value)
+        {
+            if (ViewData["CategoryId"] is SelectList selectList && value != null)
+                selectList.Single(x => x.Value == value.ToString()).Selected = true;
+        }
 
         // GET: Tag
         public async Task<IActionResult> Index()
         {;
-            return View(await _context.Tags.ToListAsync());
+            return View(await _context.Tags.OrderBy(r => r.Id).ToListAsync());
         }
 
         // GET: Tag/Details/5
@@ -43,7 +56,6 @@ namespace Practice.Controllers
         // GET: Tag/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name");
             return View();
         }
 
@@ -60,7 +72,7 @@ namespace Practice.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name", tag.CategoryId);
+            SetSelectListDefaultValue(tag.CategoryId);
             return View(tag);
         }
 
@@ -77,7 +89,7 @@ namespace Practice.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name", tag.CategoryId);
+            SetSelectListDefaultValue(tag.CategoryId);
             return View(tag);
         }
 
@@ -113,7 +125,7 @@ namespace Practice.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name", tag.CategoryId);
+            SetSelectListDefaultValue(tag.CategoryId);
             return View(tag);
         }
 

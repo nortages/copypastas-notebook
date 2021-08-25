@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Practice.Models;
@@ -16,10 +17,22 @@ namespace Practice.Controllers
             _context = context;
         }
 
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            ViewData["OriginalRecordId"] = new SelectList(_context.Records.OrderBy(r => r.Id), "Id", "Id");
+            base.OnActionExecuting(context);
+        }
+
+        private void SetSelectListDefaultValue(int? value)
+        {
+            if (ViewData["OriginalRecordId"] is SelectList selectList && value != null)
+                selectList.Single(x => x.Value == value.ToString()).Selected = true;
+        }
+
         // GET: Record
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Records.ToListAsync());
+            return View(await _context.Records.OrderBy(r => r.Id).ToListAsync());
         }
 
         // GET: Record/Details/5
@@ -43,10 +56,10 @@ namespace Practice.Controllers
         // GET: Record/Create
         public IActionResult Create()
         {
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id");
             return View();
         }
 
+        
         // POST: Record/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -60,7 +73,7 @@ namespace Practice.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id", @record.OriginalRecordId);
+            SetSelectListDefaultValue(@record.OriginalRecordId);
             return View(@record);
         }
 
@@ -77,7 +90,7 @@ namespace Practice.Controllers
             {
                 return NotFound();
             }
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id", @record.OriginalRecordId);
+            SetSelectListDefaultValue(@record.OriginalRecordId);
             return View(@record);
         }
 
@@ -113,8 +126,8 @@ namespace Practice.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id", @record.OriginalRecordId);
-            return View(@record);
+            
+            return RedirectToAction(nameof(Edit));
         }
 
         // GET: Record/Delete/5
