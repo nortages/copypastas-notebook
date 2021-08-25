@@ -7,22 +7,22 @@ using Practice.Models;
 
 namespace Practice.Controllers
 {
-    public class RecordController : Controller
+    public class TagController : Controller
     {
         private readonly PracticeContext _context;
 
-        public RecordController(PracticeContext context)
+        public TagController(PracticeContext context)
         {
             _context = context;
         }
 
-        // GET: Record
+        // GET: Tag
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.Records.ToListAsync());
+        {;
+            return View(await _context.Tags.ToListAsync());
         }
 
-        // GET: Record/Details/5
+        // GET: Tag/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,41 +30,41 @@ namespace Practice.Controllers
                 return NotFound();
             }
 
-            var @record = await _context.Records
+            var tag = await _context.Tags
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@record == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(@record);
+            return View(tag);
         }
 
-        // GET: Record/Create
+        // GET: Tag/Create
         public IActionResult Create()
         {
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name");
             return View();
         }
 
-        // POST: Record/Create
+        // POST: Tag/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Text,OriginalRecordId")] Record @record)
+        public async Task<IActionResult> Create([Bind("Id,Name,CategoryId")] Tag tag)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@record);
+                _context.Add(tag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id", @record.OriginalRecordId);
-            return View(@record);
+            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name", tag.CategoryId);
+            return View(tag);
         }
 
-        // GET: Record/Edit/5
+        // GET: Tag/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,23 +72,23 @@ namespace Practice.Controllers
                 return NotFound();
             }
 
-            var @record = await _context.Records.FindAsync(id);
-            if (@record == null)
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag == null)
             {
                 return NotFound();
             }
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id", @record.OriginalRecordId);
-            return View(@record);
+            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name", tag.CategoryId);
+            return View(tag);
         }
 
-        // POST: Record/Edit/5
+        // POST: Tag/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Text,OriginalRecordId")] Record @record)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CategoryId")] Tag tag)
         {
-            if (id != @record.Id)
+            if (id != tag.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Practice.Controllers
             {
                 try
                 {
-                    _context.Update(@record);
+                    _context.Update(tag);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecordExists(@record.Id))
+                    if (!TagExists(tag.Id))
                     {
                         return NotFound();
                     }
@@ -113,11 +113,11 @@ namespace Practice.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OriginalRecordId"] = new SelectList(_context.Records, "Id", "Id", @record.OriginalRecordId);
-            return View(@record);
+            ViewData["CategoryId"] = new SelectList(_context.TagCategories, "Id", "Name", tag.CategoryId);
+            return View(tag);
         }
 
-        // GET: Record/Delete/5
+        // GET: Tag/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +125,30 @@ namespace Practice.Controllers
                 return NotFound();
             }
 
-            var @record = await _context.Records
+            var tag = await _context.Tags
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@record == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(@record);
+            return View(tag);
         }
 
-        // POST: Record/Delete/5
+        // POST: Tag/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @record = await _context.Records.FindAsync(id);
-            _context.Records.Remove(@record);
+            var tag = await _context.Tags.FindAsync(id);
+            _context.Tags.Remove(tag);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RecordExists(int id)
+        private bool TagExists(int id)
         {
-            return _context.Records.Any(e => e.Id == id);
+            return _context.Tags.Any(e => e.Id == id);
         }
     }
 }

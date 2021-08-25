@@ -1,6 +1,7 @@
 ﻿@model Record
 
-<div class="copypasta" @(Model is { } ? $"data-copypasta-id={@Model.Id}" : "")>
+<div class="copypasta" 
+     @(Model is { } ? $"data-copypasta-id={@Model.Id}" : "")>
     <div class="copypasta__body">
         <textarea 
             class="copypasta__text" 
@@ -50,9 +51,22 @@
         @if (ViewBag.IsAdmin)
         {
             <div class="edit-buttons">
-                <button class="footer-button save-button" aria-label="Save"><i data-feather="save"></i></button>
-                <button class="footer-button remove-button" aria-label="Remove"><i data-feather="trash"></i></button>
-                <button class="footer-button add-tag-button" aria-label="Add tag"><i data-feather="tag"></i></button>    
+                <button class="footer-button save-button"
+                        aria-label="Save"
+                        data-href="@(Model == null ? Url.Action("Create", "Home") : Url.Action("Edit", "Home"))">
+                    <i data-feather="save"></i>
+                </button>
+                <button
+                    class="footer-button remove-button"
+                    aria-label="Remove"
+                    data-href="@Url.Action("Delete", "Home")">
+                    <i data-feather="trash"></i>
+                </button>
+                <button
+                    class="footer-button add-tag-button"
+                    aria-label="Add tag">
+                    <i data-feather="tag"></i>
+                </button>    
             </div>    
         }
         else

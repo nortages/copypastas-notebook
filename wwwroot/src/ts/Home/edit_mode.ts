@@ -83,7 +83,7 @@ copypastas.on('click', ".save-button", async function () {
   if (!result) return;
 
   const copypasta = $(this).closest(".copypasta");
-  const copypastaId = copypasta.is(':first-of-type') ? null : copypasta.data("copypasta-id");
+  const copypastaId = copypasta.data("copypasta-id");
   const tags = [];
   copypasta.find(".tags-row .tag").each(function () {
       tags.push($(this).data("tag-id"));
@@ -108,7 +108,7 @@ copypastas.on('click', ".save-button", async function () {
 
   $.ajax({
       method: "POST",
-      url: `/record/edit/${copypastaId}`,
+      url: $(this).data("href"),
       data: data,
       success: function(context) {
           clearInterval(interval);
@@ -144,7 +144,7 @@ copypastas.on('click', ".remove-button", async function () {
   const copypastaId = copypasta.data("copypasta-id");
   $.ajax({
       method: "POST",
-      url: `/record/delete/${copypastaId}`,
+      url: $(this).data("href"),
       data: { id: copypastaId },
       success: function(context) {
           copypasta.remove();
