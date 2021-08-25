@@ -33,7 +33,7 @@
 
         @if (Model?.OriginalRecordId is { } originalRecordId)
         {
-            <a href="@Url.Action("Original", "Home", new {originalId = originalRecordId})"
+            <a href="@Url.Action("Copypasta", "Home", new { id = originalRecordId })"
                class="footer-button"
                data-tippy-content="Оригинал">
                 <i class="bi bi-journal"></i>
@@ -41,7 +41,7 @@
         }
         @if (Model?.SimilarRecords.Count > 0)
         {
-            <a href="@Url.Action("Similar", "Home", new {originalId = Model.Id})"
+            <a href="@Url.Action("SimilarTo", "Home", new { id = Model.Id })"
                class="footer-button"
                data-tippy-content="Похожие">
                 <i class="bi bi-journals"></i>

@@ -144,25 +144,26 @@ namespace Practice.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Original(int originalId, int page = 1)
+        public async Task<IActionResult> Copypasta(int id, int page = 1)
         {
             ViewBag.SearchString = "";
             ViewBag.IncludedTagIds = new List<int>();
             ViewBag.ExcludedTagIds = new List<int>();
             
             IQueryable<Record> records = _context.Records;
-            records = records.Where(r => r.Id == originalId);
+            records = records.Where(r => r.Id == id);
             return View("Index", records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
         }
         
-        public async Task<IActionResult> Similar(int originalId, int page = 1)
+        public async Task<IActionResult> SimilarTo(int id, int page = 1)
         {
             ViewBag.SearchString = "";
             ViewBag.IncludedTagIds = new List<int>();
             ViewBag.ExcludedTagIds = new List<int>();
             
             IQueryable<Record> records = _context.Records;
-            var similarRecords = records.Single(r => r.Id == originalId).SimilarRecords;
+            var originalRecord = records.Single(r => r.Id == id);
+            var similarRecords = originalRecord.SimilarRecords;
             return View("Index", similarRecords.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
         }
 
