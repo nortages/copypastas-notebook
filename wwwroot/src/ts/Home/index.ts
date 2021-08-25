@@ -163,7 +163,7 @@ $(() => {
   $(document).on('keydown', function(event) {
     if (event.altKey && event.key == 'F1' && !(event.ctrlKey || event.shiftKey || event.metaKey)) {
       
-      const bootboxElem = bootbox.dialog({
+      bootbox.dialog({
         title: "А?",
         message: "<form action='/Home/Login' method='POST'> <input name='password' type='password'/><input type='submit' value='Тык'/> </form>",
         size: "small",
