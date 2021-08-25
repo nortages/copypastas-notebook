@@ -72,7 +72,15 @@ namespace Practice
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
+                    name: "default controller",
+                    defaults: new
+                    {
+                        controller = "Home"
+                    },
+                    pattern: "{action}/{id?}");
+                
+                endpoints.MapControllerRoute(
+                    name: "default controller and view",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
