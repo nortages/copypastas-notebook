@@ -38,7 +38,7 @@ namespace Practice
                     webBuilder.UseStartup<Startup>();
                     if (port != null)
                     {
-                        webBuilder.UseUrls("https://*:" + port);
+                        webBuilder.UseUrls("http://*:" + port);
                     }                    
                 });
         }
