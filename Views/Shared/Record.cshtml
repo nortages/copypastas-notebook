@@ -30,22 +30,33 @@
             <div class="left-scroll-shadow"></div>
             <div class="right-scroll-shadow"></div>
         </div>
-
-        @if (Model?.OriginalRecordId is { } originalRecordId)
+        
+        @if (Model != null)
         {
-            <a href="@Url.Action("Copypasta", "Home", new { id = originalRecordId })"
+            <a href="@Url.Action("Copypasta", "Home", new { id = Model.Id })"
+               target="_blank"
                class="footer-button"
-               data-tippy-content="Оригинал">
-                <i class="bi bi-journal"></i>
+               data-tippy-content="Эта паста">
+                <i class="bi bi-link"></i>
             </a>
-        }
-        @if (Model?.SimilarRecords.Count > 0)
-        {
-            <a href="@Url.Action("SimilarTo", "Home", new { id = Model.Id })"
-               class="footer-button"
-               data-tippy-content="Похожие">
-                <i class="bi bi-journals"></i>
-            </a>
+            @if (Model?.OriginalRecordId is { } originalRecordId)
+            {
+                <a href="@Url.Action("Copypasta", "Home", new { id = originalRecordId })"
+                   target="_blank"
+                   class="footer-button"
+                   data-tippy-content="Оригинал">
+                    <i class="bi bi-journal"></i>
+                </a>
+            }
+            @if (Model?.SimilarRecords.Count > 0)
+            {
+                <a href="@Url.Action("SimilarTo", "Home", new { id = Model.Id })"
+                   target="_blank"
+                   class="footer-button"
+                   data-tippy-content="Похожие">
+                    <i class="bi bi-journals"></i>
+                </a>
+            }
         }
         
         @if (ViewBag.IsAdmin)
