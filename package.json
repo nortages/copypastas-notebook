@@ -5,8 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "heroku-prebuild": "npm i",
-    "heroku-postbuild": "npx webpack"
+    "heroku-prebuild": "npm i && npx webpack && npx sass ./wwwroot/src/scss/:./wwwroot/dist/css/"
   },
   "dependencies": {
     "@popperjs/core": "^2.9.2",
