@@ -28,7 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\dist" />
       <Folder Include="wwwroot\src" />
       <Folder Include="wwwroot\libs" />
     </ItemGroup>
@@ -47,6 +46,29 @@
       <_ContentIncludedByDefault Remove="Views\Label\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Label\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Label\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\dist\css\Home\Index.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\dist\css\Home\Index.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\dist\css\Shared\Layout.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\dist\css\Shared\Layout.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\dist\js\editMode.bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\dist\js\homeIndex.bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\dist\js\Layout.bundle.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="wwwroot\dist\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="wwwroot\dist\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="wwwroot\dist\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="wwwroot\dist\**" />
     </ItemGroup>
 
 </Project>
