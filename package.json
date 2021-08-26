@@ -2,10 +2,13 @@
   "name": "converted",
   "version": "1.0.0",
   "description": "",
-  "author": "",
+  "author": "Sergey Pisarev",
   "license": "ISC",
   "scripts": {
-    "heroku-prebuild": "npm i && npx webpack && npx sass ./wwwroot/src/scss/:./wwwroot/dist/css/"
+    "webpack": "npx webpack",
+    "sass": "npx sass ./wwwroot/src/scss/:./wwwroot/dist/css/",
+    "compile_all": "npm run webpack -- & npm run sass --",
+    "heroku-prebuild": "npm i && npm run compile_all --"
   },
   "dependencies": {
     "@popperjs/core": "^2.9.2",
