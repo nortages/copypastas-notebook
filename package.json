@@ -4,6 +4,9 @@
   "description": "",
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "heroku-postbuild": "npx webpack"
+  },
   "dependencies": {
     "@popperjs/core": "^2.9.2",
     "@types/bootbox": "5.2.2",
