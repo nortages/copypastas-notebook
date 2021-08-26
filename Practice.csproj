@@ -29,7 +29,6 @@
 
     <ItemGroup>
       <Folder Include="wwwroot\src" />
-      <Folder Include="wwwroot\libs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -53,22 +52,68 @@
       <_ContentIncludedByDefault Remove="wwwroot\dist\js\editMode.bundle.js" />
       <_ContentIncludedByDefault Remove="wwwroot\dist\js\homeIndex.bundle.js" />
       <_ContentIncludedByDefault Remove="wwwroot\dist\js\Layout.bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\bootbox\bootbox.all.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\bootbox\bootbox.all.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\bootbox\bootbox.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\bootbox\bootbox.locales.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\bootbox\bootbox.locales.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\bootbox\bootbox.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-plugin-query-object-master\jquery.query-object.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-plugin-query-object-master\package.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-plugin-query-object-master\README.md" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\AUTHORS.txt" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\external\jquery\jquery.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\images\ui-icons_444444_256x240.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\images\ui-icons_555555_256x240.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\images\ui-icons_777620_256x240.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\images\ui-icons_777777_256x240.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\images\ui-icons_cc0000_256x240.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\index.html" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.structure.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.structure.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.theme.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\jquery-ui.theme.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\LICENSE.txt" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-ui\package.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation-unobtrusive\LICENSE.txt" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation\dist\additional-methods.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation\dist\additional-methods.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation\dist\jquery.validate.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation\dist\jquery.validate.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery-validation\LICENSE.md" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery\dist\jquery.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery\dist\jquery.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery\dist\jquery.min.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\libs\jquery\LICENSE.txt" />
     </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="wwwroot\dist\**" />
+      <Compile Remove="wwwroot\libs\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="wwwroot\dist\**" />
+      <EmbeddedResource Remove="wwwroot\libs\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="wwwroot\dist\**" />
+      <None Remove="wwwroot\libs\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Remove="wwwroot\dist\**" />
+      <Content Remove="wwwroot\libs\**" />
     </ItemGroup>
 
 </Project>
