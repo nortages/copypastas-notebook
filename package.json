@@ -5,6 +5,7 @@
   "author": "Sergey Pisarev",
   "license": "ISC",
   "scripts": {
+    "start": "dotnet build && dotnet run",
     "webpack": "npx webpack",
     "sass": "npx sass ./wwwroot/src/scss/:./wwwroot/dist/css/",
     "compile_all": "npm run webpack -- & npm run sass --",
