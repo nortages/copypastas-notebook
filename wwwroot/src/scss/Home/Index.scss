@@ -69,11 +69,6 @@
   }
 }
 
-#filterByTags .dropdown-menu{
-  margin-top: 0;
-  padding: 0;
-}
-
 .tag {
   @extend .border, .shadow-sm, .px-1, .rounded-pill;
   font-size: 1em;
