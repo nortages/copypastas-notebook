@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Practice.Filters;
 using Practice.Models;
 
 namespace Practice.Controllers
 {
+    [AdminAccessFilter]
     public class RecordController : Controller
     {
         private readonly PracticeContext _context;
@@ -20,7 +22,6 @@ namespace Practice.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             ViewData["OriginalRecordId"] = new SelectList(_context.Records.OrderBy(r => r.Id), "Id", "Id");
-            base.OnActionExecuting(context);
         }
 
         private void SetSelectListDefaultValue(int? value)

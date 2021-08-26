@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Practice.Models;
+using Practice.Filters;
 
 namespace Practice.Controllers
 {
+    [AdminAccessFilter]
     public class TagController : Controller
     {
         private readonly PracticeContext _context;
@@ -20,7 +22,6 @@ namespace Practice.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             ViewData["CategoryId"] = new SelectList(_context.TagCategories.OrderBy(r => r.Id), "Id", "Name");
-            base.OnActionExecuting(context);
         }
         
         private void SetSelectListDefaultValue(int? value)
