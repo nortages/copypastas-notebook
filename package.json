@@ -5,7 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "webpack",
+    "heroku-prebuild": "npm i",
     "heroku-postbuild": "npx webpack"
   },
   "dependencies": {
