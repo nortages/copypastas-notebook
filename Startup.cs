@@ -28,7 +28,7 @@ namespace Practice
             
             services.AddSession(options =>
             {
-                options.Cookie.Name = ".CopypastasNote.Session";
+                options.Cookie.Name = ".CopypastasNotebook.Session";
                 options.IdleTimeout = TimeSpan.FromDays(1);
                 options.Cookie.HttpOnly = false;
                 options.Cookie.IsEssential = true;
