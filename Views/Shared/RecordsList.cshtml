@@ -1,0 +1,35 @@
+﻿@model X.PagedList.IPagedList<Record>
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+
+<div id="records-container" class="">
+    @if (ViewBag.IsAdmin)
+    {
+        @await Html.PartialAsync("Record", model: null)
+    }
+    
+    @foreach (var record in Model)
+    {
+        @await Html.PartialAsync("Record", record)
+    }
+</div>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", "Home",
+    new
+    {
+        page,
+        q = ViewBag.SearchString,
+        inTag = ViewBag.IncludedTagIds,
+        exTag = ViewBag.ExcludedTagIds
+    }), 
+    new PagedListRenderOptions()
+    {
+        LiElementClasses = new[] { "page-item" },
+        ActiveLiElementClass = "active",
+        PageClasses = new[] { "page-link" },
+        Display = PagedListDisplayMode.IfNeeded,
+        MaximumPageNumbersToDisplay = 6,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+        DisplayLinkToNextPage = PagedListDisplayMode.Never,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    })

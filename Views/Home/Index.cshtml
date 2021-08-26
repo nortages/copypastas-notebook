@@ -1,8 +1,4 @@
 ﻿@model X.PagedList.IPagedList<Record>
-@using X.PagedList.Mvc.Core;
-@using X.PagedList.Web.Common
-@using Microsoft.EntityFrameworkCore
-@using System.Linq;
 
 @{
     ViewData["Title"] = "Главная";
@@ -59,37 +55,7 @@
     </li>
 }
 
-<div id="records-container" class="">
-    @if (ViewBag.IsAdmin)
-    {
-        @await Html.PartialAsync("Record", model: null)
-    }
-    
-    @foreach (var record in Model)
-    {
-        @await Html.PartialAsync("Record", record)
-    }
-</div>
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new
-    {
-        page,
-        searchString = ViewBag.SearchString,
-        includedTagIds = ViewBag.IncludedTagIds,
-        excludedTagIds = ViewBag.ExcludedTagIds
-    }), 
-    new PagedListRenderOptions()
-    {
-        LiElementClasses = new[] { "page-item" },
-        ActiveLiElementClass = "active",
-        PageClasses = new[] { "page-link" },
-        Display = PagedListDisplayMode.IfNeeded,
-        MaximumPageNumbersToDisplay = 6,
-        DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
-        DisplayLinkToNextPage = PagedListDisplayMode.Never,
-        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
-    })
+@await Html.PartialAsync("RecordsList", Model)
 
 @section Scripts {
     @if (ViewBag.IsAdmin)
