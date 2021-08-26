@@ -38,18 +38,18 @@
                         var isTagExcluded = ((List<int>)ViewBag.ExcludedTagIds)?.Contains(tag.Id) ?? false;
                         <span class="tag @(isTagIncluded ? "included" : isTagExcluded ? "excluded" : "")" 
                               data-tag-id="@tag.Id">@tag.Name</span>
-                    }    
+                    }
                 }
                 
-                @foreach (var tag in ((DbSet<Tag>)ViewBag.Tags).Where(t => t.CategoryId == null))
+                @foreach (var tag in ((IOrderedQueryable<Tag>)ViewBag.Tags).Where(t => t.CategoryId == null))
                 {
                     GetTagContainer(tag);
                 }
                 
-                @foreach (var category in ((List<TagCategory>)ViewBag.TagCategories).OrderByDescending(tc => tc.Tags.Count))
+                @foreach (var category in (List<TagCategory>)ViewBag.TagCategories)
                 {
                     <div class="divider-with-text"><span class="divider-text">@category.Name</span></div>
-                    foreach (var tag in category.Tags)
+                    foreach (var tag in category.Tags.ToList())
                     {
                         GetTagContainer(tag);
                     }
