@@ -36,18 +36,15 @@ function bootboxVisualFix() {
   closeButton.empty();
 }
 
-function onShow() {
-  bootboxVisualFix();
-  feather.replace();
-}
-
 function isConfirmed(message) {
   return new Promise((resolve, reject) => {
     bootbox.confirm({
-      title: "<i data-feather=\"alert-circle\"></i>Внимание",
+      title: "<i class=\"bi bi-exclamation-circle me-2\"></i>Внимание",
       message: message,
       centerVertical: true,
       swapButtonOrder: false,
+      backdrop: true,
+      closeButton: false,
       buttons: {
           cancel: {
               label: 'Отменить',
@@ -58,7 +55,6 @@ function isConfirmed(message) {
               className: 'btn-success'
           },
       },
-      onShow: onShow,
       callback: function (result) {
           resolve(result);
       }
@@ -68,13 +64,13 @@ function isConfirmed(message) {
 
 function onError(context) {
   bootbox.alert({
-    title: "<i data-feather=\"x-octagon\"></i>Ошибка",
+    title: "<i class=\"bi bi-x-octagon me-2\"></i>Ошибка",
     message: context.responseText,
     backdrop: true,
+    onEscape: true,
     size: 'small',
     className: 'text-danger',
     centerVertical: true,
-    onShow: onShow
   });    
 }
 
