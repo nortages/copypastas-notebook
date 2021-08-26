@@ -1,25 +1,17 @@
 ﻿@using System.Text.RegularExpressions
 @model Record
 
-<div class="copypasta" 
-     @(Model is { } ? $"data-copypasta-id={@Model.Id}" : "")>
+<div class="copypasta" @(Model is not null ? $"data-copypasta-id={@Model.Id}" : "")>
     <div class="copypasta__body">
         @if (ViewBag.IsAdmin)
         {
-            <textarea 
-            class="copypasta__text" 
-            maxlength="500" 
-            @(ViewBag.IsAdmin ? "" : "readonly")>
-                @Model?.Text
-            </textarea>
+        <textarea class="copypasta__text" maxlength="500" @(ViewBag.IsAdmin ? "" : "readonly")>@Model?.Text</textarea>
         }
         else
         {
-            <div class="copypasta__text">
-                @Html.Raw(Regex.Replace(Model.Text, @"@[a-zа-я_\d]+", "<b>$&</b>", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-            </div>
+            <div class="copypasta__text">@Html.Raw(Regex.Replace(Model.Text, @"@[a-zа-я_\d]+", "<b>$&</b>", RegexOptions.Compiled | RegexOptions.IgnoreCase))</div>
         }
-        
+
         @if (ViewBag.IsAdmin)
         {
             <div class="letter-counter">@((Model?.Text ?? "").Length)/500</div>
