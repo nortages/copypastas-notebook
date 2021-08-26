@@ -596,3 +596,4 @@ fabric.properties
 
 wwwroot/dist
 wwwroot/libs
+.env
