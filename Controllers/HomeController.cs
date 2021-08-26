@@ -217,31 +217,5 @@ namespace Practice.Controllers
         {
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(Record newRecord, int[] RecordLabels)
-        {   
-            try
-            {
-                _context.Update(newRecord);
-                await _context.SaveChangesAsync();
-                
-                foreach (var recordLabelId in RecordLabels)
-                {
-                    newRecord.RecordTags.Add(new RecordTag()
-                    {
-                        RecordId = newRecord.Id,
-                        TagId = recordLabelId
-                    });
-                }
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException e)
-            {
-                return BadRequest(e.Message);
-            }
-
-            return Ok();
-        }
     }
 }
