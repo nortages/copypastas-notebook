@@ -144,6 +144,12 @@ namespace Practice.Controllers
             return RedirectToAction("Index");
         }
 
+        private async Task<IActionResult> CopypastasList(IQueryable<Record> records, int page)
+        {
+            records = records.OrderByDescending(o => o.Id);
+            return View("Index", records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+        }
+
         public async Task<IActionResult> Copypasta(int id, int page = 1)
         {
             ViewBag.SearchString = "";
@@ -152,7 +158,7 @@ namespace Practice.Controllers
             
             IQueryable<Record> records = _context.Records;
             records = records.Where(r => r.Id == id);
-            return View("Index", records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+            return await CopypastasList(records, page);
         }
         
         public async Task<IActionResult> SimilarTo(int id, int page = 1)
@@ -163,8 +169,8 @@ namespace Practice.Controllers
             
             IQueryable<Record> records = _context.Records;
             var originalRecord = records.Single(r => r.Id == id);
-            var similarRecords = originalRecord.SimilarRecords;
-            return View("Index", similarRecords.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+            var similarRecords = originalRecord.SimilarRecords.AsQueryable();
+            return await CopypastasList(similarRecords, page);
         }
 
         public async Task<IActionResult> Index(
@@ -183,7 +189,8 @@ namespace Practice.Controllers
             
             IQueryable<Record> records = _context.Records;
             
-            records = records.Where(r => r.RecordTags.All(rt => !_context.TagCategories.Contains(rt.Tag.Category) || _context.Tags.Where(t => includedTagIds.Contains(t.Id)).Contains(rt.Tag)));
+            if (string.IsNullOrEmpty(searchString) && _context.Tags.Where(t => includedTagIds.Contains(t.Id)).All(t => t.CategoryId == null))
+                records = records.Where(r => r.RecordTags.All(rt => rt.Tag.Category == null));
             
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -197,9 +204,7 @@ namespace Practice.Controllers
             if (excludedTagIds.Length > 0)
                 records = records.Where(r => r.RecordTags.All(rl => !excludedTagIds.Contains(rl.TagId)));
             
-            records = records.OrderByDescending(o => o.Id);
-            
-            return View(records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
+            return await CopypastasList(records, page);
         }
 
         public IActionResult Privacy()
