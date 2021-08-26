@@ -5,12 +5,12 @@
 <div id="records-container" class="">
     @if (ViewBag.IsAdmin)
     {
-        @await Html.PartialAsync("Record", model: null)
+        @await Html.PartialAsync("RecordPartial", model: null)
     }
     
     @foreach (var record in Model)
     {
-        @await Html.PartialAsync("Record", record)
+        @await Html.PartialAsync("RecordPartial", record)
     }
 </div>
 
