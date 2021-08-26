@@ -32,7 +32,7 @@
   display: flex;
   flex-wrap: wrap;
   padding: 0.5rem;
-  width: 18rem;
+  min-width: 19rem;
   user-select: none;
   font-size: 14px;
   background-color: inherit;
@@ -117,10 +117,17 @@
   font-size: 0.9em;
   background-color: inherit;
   
+  
   .divider-text {
     background: inherit;
     padding:0 0.5rem;
     color: hsl(0deg 0% 50%);
+  }
+}
+
+.tippy-content {
+  .tags-container {
+    max-width: 19rem;
   }
 }
 
