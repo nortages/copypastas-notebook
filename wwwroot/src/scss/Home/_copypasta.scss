@@ -20,8 +20,6 @@
     #{$c}__text {
       @extend .card-text, .text-body;
       background-color: inherit;
-
-      text-rendering: geometricPrecision;
       text-align: start;
       word-wrap: break-word;
       line-height: 20px;
@@ -41,6 +39,10 @@
 
       &:focus-visible {
         outline: none;
+      }
+      
+      &.text-with-graphics {
+        font-family: fantasy !important;
       }
     }
 

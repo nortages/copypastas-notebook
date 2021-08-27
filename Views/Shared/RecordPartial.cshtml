@@ -9,7 +9,7 @@
         }
         else
         {
-            <div class="copypasta__text">@Html.Raw(Regex.Replace(Model.Text, @"@[a-zа-я_\d]+", "<b>$&</b>", RegexOptions.Compiled | RegexOptions.IgnoreCase))</div>
+            <div class="copypasta__text @(Model.RecordTags.Any(rt => rt.TagId == 9) ? "text-with-graphics" : "")">@Html.Raw(Regex.Replace(Model.Text, @"@[a-zа-я_\d]+", "<b>$&</b>", RegexOptions.Compiled | RegexOptions.IgnoreCase))</div>
         }
 
         @if (ViewBag.IsAdmin)
