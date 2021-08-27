@@ -140,6 +140,12 @@ $(() => {
     theme: "simple-button-tip",
     delay: [1000, null],
   });
+
+  tippy('#filterTagsPopover .tag', {
+    theme: "simple-button-tip",
+    delay: [1000, null],
+    content: "ЛКМ - включить тег, ПКМ - исключить тег"
+  });
   
   $(".horizontal-tags-container").each(function() {
     if (isOverflown(this)) {
