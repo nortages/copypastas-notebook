@@ -1,7 +1,6 @@
 import { toggleFilterTagState } from "./index";
 import * as bootbox from 'bootbox';
 import { fixHeight } from "../general";
-import feather from 'feather-icons';
 
 import '@popperjs/core';
 import tippy from 'tippy.js';
@@ -229,10 +228,6 @@ function addPopoverToButton() {
 
   const footer = $(button).closest(".copypasta__footer");
   const footerTagsRow = footer.find(".tags-row");
-  footerTagsRow.on('click', ".tag .tag__remove-button", function () {
-    $(this).closest(".tag").remove();
-    button._tippy.setContent(getAvailableTags.call(button).html());
-  });
 }
 
 const all_tags = [];
