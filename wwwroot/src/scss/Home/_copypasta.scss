@@ -138,7 +138,7 @@
     .buttons-row {
       display: flex;
       
-      & > * {
+      & > button, & > a {
         @extend .card__button;
 
         &:hover {
@@ -178,8 +178,10 @@
     }
 
     .bi {
-      height: 1rem;
+      height: 1.2rem;
+      font-size: 1.1rem;
       display: flex;
+      align-items: center;
     }    
   }
 }
