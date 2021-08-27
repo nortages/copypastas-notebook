@@ -211,6 +211,13 @@ function getAvailableTags() {
 
 function addPopoverToButton() {
   const button = this;
+
+  tippy(button, {
+    trigger: 'mouseenter focus',
+    content: "Добавить тег",
+    theme: "simple-button-tip",
+    delay: [1000, null],
+  });
   
   tippy(button, {
     trigger: 'click',
