@@ -46,40 +46,40 @@
                 {
                     <a href="@Url.Action("Copypasta", "Home", new { id = originalRecordId })"
                        target="_blank"
-                       class="footer-button"
                        data-tippy-content="Оригинал">
-                        <i class="bi bi-journal"></i>
+                        <i class="bi bi-arrow-up-square"></i>
                     </a>
                 }
                 if (Model?.SimilarRecords.Count > 0)
                 {
                     <a href="@Url.Action("SimilarTo", "Home", new { id = Model.Id })"
                        target="_blank"
-                       class="footer-button"
                        data-tippy-content="Похожие">
-                        <i class="bi bi-journals"></i>
+                        <i class="bi bi-arrow-down-square"></i>
                     </a>
                 }
-                <button class="footer-button copy-button" aria-label="Copy" data-tippy-content="Скопировать"><i class="bi bi-clipboard"></i></button>
+                <button class="copy-button" aria-label="Copy" data-tippy-content="Скопировать"><i class="bi bi-clipboard"></i></button>
             }
             @if (ViewBag.IsAdmin)
             {
-                <button class="footer-button save-button"
+                <button class="save-button"
                         aria-label="Save"
+                        data-tippy-content="Сохранить"
                         data-href="@(Model == null ? Url.Action("Create", "Home") : Url.Action("Edit", "Home"))">
-                    <i data-feather="save"></i>
+                    <i class="bi bi-save"></i>
                 </button>
                 <button
-                    class="footer-button remove-button"
+                    class="remove-button"
                     aria-label="Remove"
+                    data-tippy-content="Удалить"
                     data-href="@Url.Action("Delete", "Home")">
-                    <i data-feather="trash"></i>
+                    <i class="bi bi-x-square"></i>
                 </button>
                 <button
-                    class="footer-button add-tag-button"
+                    class="add-tag-button"
                     aria-label="Add tag">
-                    <i data-feather="tag"></i>
-                </button>  
+                    <i class="bi bi-tags"></i>
+                </button>
             }
         </div>
     </div>
