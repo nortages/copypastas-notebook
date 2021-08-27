@@ -129,3 +129,13 @@
 .tippy-box[data-theme~='simple-button-tip'] {
   padding: 0.5rem;
 }
+
+.info-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  padding: 0.5rem;
+  font-size: 1rem;
+  opacity: 0.8;
+}

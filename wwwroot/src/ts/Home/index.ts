@@ -141,7 +141,7 @@ $(() => {
     delay: [1000, null],
   });
 
-  tippy('#filterTagsPopover .tag', {
+  tippy('#filterTagsPopover .info-icon', {
     theme: "simple-button-tip",
     delay: [1000, null],
     content: "ЛКМ - включить тег, ПКМ - исключить тег"
