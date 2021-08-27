@@ -16,6 +16,15 @@
         {
             <div class="letter-counter">@((Model?.Text ?? "").Length)/500</div>
         }
+        
+        @if (Model != null)
+        {
+            <a class="link-button" href="@Url.Action("Copypasta", "Home", new { id = Model.Id })"
+               target="_blank"
+               data-tippy-content="Эта паста">
+                <i class="bi bi-link"></i>
+            </a>
+        }
     </div>
     <div class="copypasta__footer">
         <div class="relative-container">
@@ -30,38 +39,31 @@
             <div class="left-scroll-shadow"></div>
             <div class="right-scroll-shadow"></div>
         </div>
-        
-        @if (Model != null)
-        {
-            <a href="@Url.Action("Copypasta", "Home", new { id = Model.Id })"
-               target="_blank"
-               class="footer-button"
-               data-tippy-content="Эта паста">
-                <i class="bi bi-link"></i>
-            </a>
-            @if (Model?.OriginalRecordId is { } originalRecordId)
+        <div class="buttons-row">
+            @if (Model != null)
             {
-                <a href="@Url.Action("Copypasta", "Home", new { id = originalRecordId })"
-                   target="_blank"
-                   class="footer-button"
-                   data-tippy-content="Оригинал">
-                    <i class="bi bi-journal"></i>
-                </a>
+                if (Model?.OriginalRecordId is { } originalRecordId)
+                {
+                    <a href="@Url.Action("Copypasta", "Home", new { id = originalRecordId })"
+                       target="_blank"
+                       class="footer-button"
+                       data-tippy-content="Оригинал">
+                        <i class="bi bi-journal"></i>
+                    </a>
+                }
+                if (Model?.SimilarRecords.Count > 0)
+                {
+                    <a href="@Url.Action("SimilarTo", "Home", new { id = Model.Id })"
+                       target="_blank"
+                       class="footer-button"
+                       data-tippy-content="Похожие">
+                        <i class="bi bi-journals"></i>
+                    </a>
+                }
+                <button class="footer-button copy-button" aria-label="Copy" data-tippy-content="Скопировать"><i class="bi bi-clipboard"></i></button>
             }
-            @if (Model?.SimilarRecords.Count > 0)
+            @if (ViewBag.IsAdmin)
             {
-                <a href="@Url.Action("SimilarTo", "Home", new { id = Model.Id })"
-                   target="_blank"
-                   class="footer-button"
-                   data-tippy-content="Похожие">
-                    <i class="bi bi-journals"></i>
-                </a>
-            }
-        }
-        
-        @if (ViewBag.IsAdmin)
-        {
-            <div class="edit-buttons">
                 <button class="footer-button save-button"
                         aria-label="Save"
                         data-href="@(Model == null ? Url.Action("Create", "Home") : Url.Action("Edit", "Home"))">
@@ -77,12 +79,8 @@
                     class="footer-button add-tag-button"
                     aria-label="Add tag">
                     <i data-feather="tag"></i>
-                </button>    
-            </div>    
-        }
-        else
-        {
-            <button class="footer-button copy-button" aria-label="Copy" data-tippy-content="Скопировать"><i class="bi bi-clipboard"></i></button>
-        }
+                </button>  
+            }
+        </div>
     </div>
 </div>

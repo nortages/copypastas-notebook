@@ -54,6 +54,21 @@
       line-height: 1;
       padding: 0.3rem;
     }
+    
+    .link-button {
+      @extend .card__button;
+      position: absolute;
+      top: 0;
+      right: 0;
+      opacity: 0;
+      padding: 0.1rem 0.2rem !important;
+    }
+
+    &:hover {
+      .link-button {
+        opacity: 1 !important;
+      }
+    }
   }
 
   &__footer {
@@ -120,44 +135,51 @@
       }
     }
   
-    .edit-buttons {
+    .buttons-row {
       display: flex;
-    }
-
-    .footer-button {
-      @extend .btn, .shadow-none, .text-muted;
-
-      display: flex;
-      align-items: center;
-
-      padding-left: 0;
-      padding-right: var(--footer-padding);
-
-      .feather {
-        width: 1.2em;
-        height: 1.2em;
-        stroke: currentColor;
-        stroke-width: 1.5;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        fill: none;
-      }
       
-      .bi {
-        height: 1rem;
-        display: flex;
-      }
+      & > * {
+        @extend .card__button;
 
-      &:hover {
-        @extend .text-primary;
-      }
-
-      &.save-button:hover {
-        @extend .text-success;
-      }
-      &.remove-button:hover {
-        @extend .text-danger;
-      }
+        &:hover {
+          @extend .text-primary;
+        }
+        &.save-button:hover {
+          @extend .text-success;
+        }
+        &.remove-button:hover {
+          @extend .text-danger;
+        }  
+      }      
     }
+  }
+
+  .card__button {
+    @extend .btn, .shadow-none;
+    
+    &:not(:hover) {
+      @extend .text-muted;
+    }
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 0;
+    padding-right: var(--footer-padding, 0.375rem);
+
+    .feather {
+      width: 1.2em;
+      height: 1.2em;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .bi {
+      height: 1rem;
+      display: flex;
+    }    
   }
 }
