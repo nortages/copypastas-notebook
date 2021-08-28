@@ -18,6 +18,7 @@ namespace Practice.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly PracticeContext _context;
+        private readonly Random _random = new Random();
 
         private const int RecordsNumberPerPage = 18;
         private const string RecordExistsMessage = "Такая паста уже существует.";
@@ -144,13 +145,13 @@ namespace Practice.Controllers
             return RedirectToAction("Index");
         }
 
-        private async Task<IActionResult> CopypastasList(IQueryable<Record> records, int page)
+        private async Task<IActionResult> CopypastasList(IQueryable<Record> records, int page = 1)
         {
             records = records.OrderByDescending(o => o.Id);
             return View("Index", records.ToPagedList(page, ViewBag.IsAdmin ? RecordsNumberPerPage - 1 : RecordsNumberPerPage));
         }
 
-        public async Task<IActionResult> Copypasta(int id, int page = 1)
+        public async Task<IActionResult> Copypasta(int id)
         {
             ViewBag.SearchString = "";
             ViewBag.IncludedTagIds = new List<int>();
@@ -158,7 +159,7 @@ namespace Practice.Controllers
             
             IQueryable<Record> records = _context.Records;
             records = records.Where(r => r.Id == id);
-            return await CopypastasList(records, page);
+            return await CopypastasList(records);
         }
         
         public async Task<IActionResult> SimilarTo(int id, int page = 1)
@@ -171,6 +172,18 @@ namespace Practice.Controllers
             var originalRecord = records.Single(r => r.Id == id);
             var similarRecords = originalRecord.SimilarRecords.AsQueryable();
             return await CopypastasList(similarRecords, page);
+        }
+        
+        public async Task<IActionResult> Random()
+        {
+            ViewBag.SearchString = "";
+            ViewBag.IncludedTagIds = new List<int>();
+            ViewBag.ExcludedTagIds = new List<int>();
+
+            var recordsCount = _context.Records.Count();
+            var randNum = _random.Next(0, recordsCount);
+            var randRecord = _context.Records.Skip(randNum).Take(1);
+            return await CopypastasList(randRecord);
         }
 
         public async Task<IActionResult> Index(

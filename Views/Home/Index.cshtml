@@ -44,6 +44,11 @@
             </div>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="@Url.Action("Random", "Home")" role="button">
+            Мне повезёт!
+        </a>
+    </li>
 }
 
 @await Html.PartialAsync("RecordsListPartial", Model)
