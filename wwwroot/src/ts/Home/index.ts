@@ -144,6 +144,7 @@ $(() => {
   tippy('#filterTagsPopover .info-icon', {
     theme: "simple-button-tip",
     delay: [1000, null],
+    allowHTML: true,
     content: "ЛКМ - включить тег,<br>ПКМ - исключить тег,<br>Поиск - применить"
   });
   
